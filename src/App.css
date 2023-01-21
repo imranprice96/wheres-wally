@@ -1,0 +1,47 @@
+.start-img {
+	width: auto;
+	height: 100px;
+}
+
+.start-overlay {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.664);
+}
+
+.start-modal {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: white;
+	padding: 2rem;
+	border-radius: 1rem;
+	gap: 2em;
+}
+
+.start-images {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	text-align: center;
+	gap: 1rem;
+	background-color: white;
+	width: 100%;
+}
+
+.start-images p {
+	font-size: 1.5rem;
+	margin: 0;
+}
+
+#modal-title {
+	font-size: 2rem;
+}
+
+.modal-header {
+	color: white;
+	background-color: black;
+	padding: 1rem;
+}
