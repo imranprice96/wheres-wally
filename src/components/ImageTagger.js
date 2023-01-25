@@ -7,7 +7,7 @@ import Guess from "./Guess";
 function ImageTagger(props) {
 	const { coords, setCoords } = props;
 	const [trueCoords, setTrueCoords] = useState([]);
-	const imgRef = React.createRef();
+	//const imgRef = React.createRef();
 	const [trueHeight, setHeight] = useState("");
 	const [trueWidth, setWidth] = useState("");
 	const [target, setTarget] = useState(null);
@@ -32,20 +32,9 @@ function ImageTagger(props) {
 	//Odlaw: 1044, 934
 	//Wenda: 1446, 377
 
-	useEffect(() => {
-		setHeight(imgRef.current.naturalHeight);
-		setWidth(imgRef.current.naturalWidth);
-	}, []);
-
 	return (
 		<ImageContainer onClick={show}>
-			<Image
-				onClick={show}
-				src={background}
-				ref={imgRef}
-				width={trueWidth}
-				height={trueHeight}
-			></Image>
+			<Image onClick={show} src={background}></Image>
 			<Guess showGuesser={showGuesser} coords={trueCoords} />
 		</ImageContainer>
 	);
@@ -64,8 +53,8 @@ const ImageContainer = styled.div`
 
 const Image = styled.img`
 	cursor: pointer;
-	width: ${(props) => props.width};
-	height: ${(props) => props.height};
+	width: 1840px;
+	height: 1300px;
 `;
 
 //width: 100%;
