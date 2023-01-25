@@ -7,10 +7,6 @@ import Guess from "./Guess";
 function ImageTagger(props) {
 	const { coords, setCoords } = props;
 	const [trueCoords, setTrueCoords] = useState([]);
-	//const imgRef = React.createRef();
-	const [trueHeight, setHeight] = useState("");
-	const [trueWidth, setWidth] = useState("");
-	const [target, setTarget] = useState(null);
 	const [showGuesser, setGuess] = useState(false);
 
 	const getCoords = (e) => {
@@ -18,13 +14,24 @@ function ImageTagger(props) {
 		let x = e.clientX - rect.left; //x position within the element.
 		let y = e.clientY - rect.top; //y position within the element.
 		setCoords([x, y]);
-		setTrueCoords([e.clientX, e.clientY]);
+		checkModalPosition(e);
 		console.log(trueCoords);
 	};
 
 	const show = (e) => {
 		getCoords(e);
 		setGuess(!showGuesser);
+	};
+
+	const checkModalPosition = (e) => {
+		let x = e.clientX;
+		let y = e.clientY;
+		let vWidth = window.innerWidth;
+		let vHeight = window.innerHeight;
+
+		if (x > vWidth - 230) x = vWidth - 230;
+		if (y > vHeight - 250) y = vHeight - 250;
+		setTrueCoords([x, y]);
 	};
 
 	//Answers
@@ -39,7 +46,6 @@ function ImageTagger(props) {
 		</ImageContainer>
 	);
 }
-// on each click calculate image scale
 
 const ImageContainer = styled.div`
 	object-fit: scale-down;
@@ -57,9 +63,4 @@ const Image = styled.img`
 	height: 1300px;
 `;
 
-//width: 100%;
-//height: auto;
-
-//width: ${(props) => props.width};
-//height: ${(props) => props.height};
 export default ImageTagger;

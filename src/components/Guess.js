@@ -32,8 +32,8 @@ const AnswerPicker = styled.div`
 	flex-direction: column;
 	position: absolute;
 	background-color: white;
-	left: ${(props) => (props.x ? props.x : "50%")};
-	top: ${(props) => (props.y ? props.y : "50%")};
+	left: ${(props) => props.x};
+	top: ${(props) => props.y};
 	padding: 1rem;
 	border-radius: 1rem;
 	gap: 1rem;
