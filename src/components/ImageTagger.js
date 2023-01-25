@@ -53,16 +53,16 @@ function ImageTagger(props) {
 // on each click calculate image scale
 
 const ImageContainer = styled.div`
+	object-fit: scale-down;
 	background-color: #ccc;
-	width: 1840px;
-	height: 1300px;
-	height: fit-content;
+	width: 100%;
+	height: auto;
 	border: 10px solid green;
 	box-sizing: border-box;
+	overflow: auto;
 `;
 
 const Image = styled.img`
-	object-fit: contain;
 	cursor: pointer;
 	width: ${(props) => props.width};
 	height: ${(props) => props.height};
