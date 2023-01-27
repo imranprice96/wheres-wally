@@ -2,9 +2,40 @@ import wally from "./../images/wally.png";
 import odlaw from "./../images/odlaw.jpg";
 import wenda from "./../images/wenda.jpg";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./Firebase";
 
 function Guess(props) {
 	const { showGuesser, coords } = props;
+
+	const [wallyInfo, setWally] = useState({ image: wally, isFound: false });
+	const [odlawInfo, setOdlaw] = useState({ image: odlaw, isFound: false });
+	const [wendaInfo, setWenda] = useState({ image: wenda, isFound: false });
+	const [allFound, setAllFound] = useState(false);
+	const [answers, setAnswers] = useState([]);
+
+	const checkAllFound = () => {
+		if (wallyInfo.isFound && odlaw.isFound && wenda.isFound) {
+			setAllFound(true);
+		}
+	};
+
+	const fetchPost = async () => {
+		await getDocs(collection(db, "Answers")).then((querySnapshot) => {
+			const newData = querySnapshot.docs.map((doc) => ({
+				...doc.data(),
+				id: doc.id,
+			}));
+			setAnswers(newData);
+			console.log(answers, newData);
+		});
+	};
+
+	useEffect(() => {
+		fetchPost();
+	}, []);
+
 	return (
 		<AnswerPicker
 			style={{ display: showGuesser ? "flex" : "none" }}
@@ -12,7 +43,7 @@ function Guess(props) {
 			y={coords[1] + "px"}
 		>
 			<CharContainer>
-				<Character src={wally} />
+				<Character src={wallyInfo.image} />
 				<CharTitle>Wally</CharTitle>
 			</CharContainer>
 			<CharContainer>
