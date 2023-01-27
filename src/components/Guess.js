@@ -8,18 +8,8 @@ import { db } from "./Firebase";
 
 function Guess(props) {
 	const { showGuesser, coords } = props;
-
-	const [wallyInfo, setWally] = useState({ image: wally, isFound: false });
-	const [odlawInfo, setOdlaw] = useState({ image: odlaw, isFound: false });
-	const [wendaInfo, setWenda] = useState({ image: wenda, isFound: false });
-	const [allFound, setAllFound] = useState(false);
 	const [answers, setAnswers] = useState([]);
-
-	const checkAllFound = () => {
-		if (wallyInfo.isFound && odlaw.isFound && wenda.isFound) {
-			setAllFound(true);
-		}
-	};
+	const [characters, setChars] = useState([]);
 
 	const fetchPost = async () => {
 		await getDocs(collection(db, "Answers")).then((querySnapshot) => {
@@ -32,8 +22,24 @@ function Guess(props) {
 		});
 	};
 
+	const initCharacters = () => {
+		const _wally = { id: "wally", image: wally, isFound: false };
+		const _odlaw = { id: "odlaw", image: odlaw, isFound: false };
+		const _wenda = { id: "wenda", image: wenda, isFound: false };
+		setChars([_wally, _odlaw, _wenda]);
+	};
+
+	const charFound = (name) => {
+		let tempArr = characters;
+		for (const i in tempArr) {
+			if (tempArr[i].id === name) tempArr[i].isFound = true;
+		}
+		setChars(tempArr);
+	};
+
 	useEffect(() => {
 		fetchPost();
+		initCharacters();
 	}, []);
 
 	return (
@@ -42,18 +48,22 @@ function Guess(props) {
 			x={coords[0] + "px"}
 			y={coords[1] + "px"}
 		>
-			<CharContainer>
-				<Character src={wallyInfo.image} />
-				<CharTitle>Wally</CharTitle>
-			</CharContainer>
-			<CharContainer>
-				<Character src={odlaw} />
-				<CharTitle>Odlaw</CharTitle>
-			</CharContainer>
-			<CharContainer>
-				<Character src={wenda} />
-				<CharTitle>Wenda</CharTitle>
-			</CharContainer>
+			{characters.map((char) => {
+				if (char.isFound === false) {
+					return (
+						<CharContainer
+							key={char.id}
+							onClick={() => {
+								console.log(char.id);
+								charFound(char.id);
+							}}
+						>
+							<Character src={char.image} />
+							<CharTitle>{char.id}</CharTitle>
+						</CharContainer>
+					);
+				} else return <div></div>;
+			})}
 		</AnswerPicker>
 	);
 }
@@ -91,6 +101,7 @@ const CharContainer = styled.div`
 const CharTitle = styled.p`
 	font-size: 2rem;
 	margin: 0;
+	text-transform: capitalize;
 `;
 
 export default Guess;
